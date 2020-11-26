@@ -449,6 +449,7 @@ public class SwiftStripeNativePlugin: NSObject, FlutterPlugin, PKPaymentAuthoriz
     }
 
     public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
+        self.flutterResult?("")
         controller.dismiss(animated: true, completion: nil)
     }
     
