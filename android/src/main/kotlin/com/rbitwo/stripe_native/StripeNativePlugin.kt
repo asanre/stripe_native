@@ -24,6 +24,7 @@ class StripeNativePlugin: MethodCallHandler {
   var publishableKey: String? = null
   var merchantIdentifier: String? = null
   var currencyKey: String = "USD"
+  var countryKey: String = ""
   var paymentsClient: PaymentsClient? = null
   
   var activity: Activity? = null
@@ -115,6 +116,7 @@ class StripeNativePlugin: MethodCallHandler {
             .put("transactionInfo", JSONObject()
                     .put("totalPrice", total.toString())
                     .put("totalPriceStatus", "FINAL")
+                    .put("countryCode", countryKey)
                     .put("currencyCode", currencyKey)
             )
             .put("merchantInfo", JSONObject()
@@ -153,6 +155,7 @@ class StripeNativePlugin: MethodCallHandler {
 
     } else if (call.method == "setCountryKey") {
 
+      countryKey = call.arguments as String
       result.success(null)
 
     } else if (call.method == "receiptNativePay") {
