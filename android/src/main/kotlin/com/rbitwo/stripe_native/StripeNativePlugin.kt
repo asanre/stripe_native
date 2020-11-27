@@ -158,6 +158,10 @@ class StripeNativePlugin: MethodCallHandler {
       countryKey = call.arguments as String
       result.success(null)
 
+    } else if (call.method == "supportsNativePay") {
+
+      supportsNativePay(result)
+
     } else if (call.method == "receiptNativePay") {
 
       var receiptArgs = call.arguments as Map<String, Any>
@@ -236,4 +240,31 @@ class StripeNativePlugin: MethodCallHandler {
   }
 
 
+  private fun supportsNativePay(result: Result) {
+    paymentsClient?.isReadyToPay(createIsReadyToPayRequest())?.addOnCompleteListener { task ->
+      try {
+        result?.success(task.isSuccessful)
+      } catch (exception: ApiException) {
+        result?.success(false)
+      }
+    }
+  }
+
+  private fun createIsReadyToPayRequest(): IsReadyToPayRequest {
+    return IsReadyToPayRequest.fromJson(
+            JSONObject()
+                    .put("allowedAuthMethods", JSONArray()
+                            .put("PAN_ONLY")
+                            .put("CRYPTOGRAM_3DS")
+                    )
+                    .put("allowedCardNetworks",
+                            JSONArray()
+                                    .put("AMEX")
+                                    .put("DISCOVER")
+                                    .put("MASTERCARD")
+                                    .put("VISA")
+                    )
+                    .toString()
+    )
+  }
 }

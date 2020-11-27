@@ -314,6 +314,10 @@ public class SwiftStripeNativePlugin: NSObject, FlutterPlugin, PKPaymentAuthoriz
             guard let key = call.arguments as? String else { return }
             countryKey = key
             
+        } else if (call.method == "supportsNativePay") {
+
+            result(Stripe.deviceSupportsApplePay())
+
         } else if (call.method == "nativePay") {
             
             let orderDict = call.arguments as! Dictionary<String, AnyObject>

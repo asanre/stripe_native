@@ -67,6 +67,12 @@ class StripeNative {
     return nativeToken;
   }
 
+  static Future<bool> deviceSupportsNativePay() async {
+    final bool supportsNativePay =
+        await _channel.invokeMethod('supportsNativePay');
+    return supportsNativePay;
+  }
+
   static Future<String> useReceiptNativePay(Receipt aReceipt) async {
     var newOrder = Map<String, dynamic>();
     newOrder.addAll(aReceipt.items);

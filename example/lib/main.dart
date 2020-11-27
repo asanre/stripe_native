@@ -34,6 +34,8 @@ class _NativePayExampleState extends State<NativePayExample> {
         child: Text("Native Pay"),
         onPressed: () async {
 
+          var deviceSupportsNativePay = await StripeNative.deviceSupportsNativePay();
+          print("deviceSupportsNativePay $deviceSupportsNativePay");
           // var token = await orderPayment;
           var token = await receiptPayment;
 
